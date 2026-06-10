@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- ENUMS ---
+enum RoleType {
+  SUPER_ADMIN
+  HOSPITAL_ADMIN
+  DOCTOR
+  NURSE
+  RECEPTIONIST
+  LAB_TECH
+  PHARMACIST
+  BILLING_EXEC
+  PATIENT
+}
+
+enum AppointmentStatus {
+  REQUESTED
+  CONFIRMED
+  CONSULTATION
+  COMPLETED
+  CANCELLED
+}
+
+// --- AUTH & SECURITY ---
+model User {
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  passwordHash        String
+  mfaSecret           String?
+  mfaEnabled          Boolean   @default(false)
+  isLocked            Boolean   @default(false)
+  lockoutUntil        DateTime?
+  failedLoginAttempts Int       @default(0)
+  roles               UserRole[]
+  sessions            UserSession[]
+  auditLogs           AuditLog[]
+  securityEvents      SecurityEvent[]
+  dataAccessLogs      DataAccessLog[]
+  patientProfile      PatientProfile?
+  doctorProfile       DoctorProfile?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        RoleType         @unique
+  description String
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model UserRole {
+  userId String
+  roleId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model Permission {
+  id       String           @id @default(uuid())
+  resource String // e.g., "patient", "appointment", "security"
+  action   String // e.g., "read", "write", "delete", "manage"
+  roles    RolePermission[]
+  
+  @@unique([resource, action])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  
+  @@id([roleId, permissionId])
+}
+
+model UserSession {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  userAgent    String
+  ipAddress    String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  
+  @@index([userId])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  resource  String
+  details   String?  @db.Text
+  ipAddress String
+  userAgent String?
+  timestamp DateTime @default(now())
+  
+  @@index([userId, timestamp])
+}
+
+model SecurityEvent {
+  id          String   @id @default(uuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  eventType   String   // "FAILED_LOGIN", "BRUTE_FORCE", "UNAUTHORIZED_ACCESS", "PRIVILEGE_ESCALATION", "SESSION_HIJACK"
+  severity    String   // "LOW", "MEDIUM", "HIGH", "CRITICAL"
+  description String   @db.Text
+  ipAddress   String
+  userAgent   String?
+  resolved    Boolean  @default(false)
+  timestamp   DateTime @default(now())
+  
+  @@index([severity, resolved])
+}
+
+model DataAccessLog {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resource   String   // "EMR", "LAB_REPORT", "BILLING"
+  resourceId String   // The specific ID of the record accessed
+  action     String   // "READ", "DOWNLOAD", "PRINT"
+  ipAddress  String
+  userAgent  String
+  timestamp  DateTime @default(now())
+  
+  @@index([userId, resource])
+  @@index([timestamp])
+}
+
+// --- CORE HEALTHCARE ---
+model PatientProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  dob               DateTime
+  gender            String
+  bloodGroup        String?
+  emergencyContact  String
+  allergies         String[] 
+  chronicConditions String[]
+  insuranceInfo     Json?
+  appointments      Appointment[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model DoctorProfile {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  licenseNumber     String   @unique
+  specialization    String
+  department        String
+  consultationFee   Decimal  @db.Decimal(10, 2)
+  availability      Json     // e.g., {"monday": ["09:00", "17:00"]}
+  appointments      Appointment[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Appointment {
+  id        String            @id @default(uuid())
+  patientId String
+  patient   PatientProfile    @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  doctorId  String
+  doctor    DoctorProfile     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  date      DateTime
+  time      String
+  status    AppointmentStatus @default(REQUESTED)
+  notes     String?           @db.Text
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  
+  @@index([doctorId, date])
+  @@index([patientId])
+}

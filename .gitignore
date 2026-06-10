@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.local
+.env.production
+
+# prisma
+prisma/dev.db
+
+# build
+dist/
+build/
+
+# logs
+logs/
+*.log
+
+# vscode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# coverage
+coverage/
+
+# cache
+.cache
