@@ -690,7 +690,7 @@ export class DoctorService {
           gte: new Date(),
         },
         status: {
-          in: ['REQUESTED', 'CONFIRMED', 'CONSULTATION'],
+          in: ['REQUESTED', 'CONFIRMED', 'IN_CONSULTATION'],
         },
       },
     });

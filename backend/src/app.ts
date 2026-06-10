@@ -8,6 +8,12 @@ import securityRouter from './routes/security.routes';
 import sessionRouter from './routes/session.routes';
 import patientRouter from './routes/patient.routes';
 import doctorRouter from './routes/doctor.routes';
+import appointmentRouter from './routes/appointment.routes';
+import emrRouter from './routes/emr.routes';
+import labRouter from './routes/lab.routes';
+import pharmacyRouter from './routes/pharmacy.routes';
+import billingRouter from './routes/billing.routes';
+import ipdRouter from './routes/ipd.routes';
 
 const app = express();
 
@@ -39,6 +45,12 @@ app.use('/api/security', securityRouter);
 app.use('/api/sessions', sessionRouter);
 app.use('/api/patients', patientRouter);
 app.use('/api/doctors', doctorRouter);
+app.use('/api/appointments', appointmentRouter);
+app.use('/api/emr', emrRouter);
+app.use('/api/lab', labRouter);
+app.use('/api/pharmacy', pharmacyRouter);
+app.use('/api/billing', billingRouter);
+app.use('/api/ipd', ipdRouter);
 
 // Health Check
 app.get('/health', (_req, res) => {
