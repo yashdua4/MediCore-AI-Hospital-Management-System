@@ -43,8 +43,8 @@ model User {
   auditLogs           AuditLog[]
   securityEvents      SecurityEvent[]
   dataAccessLogs      DataAccessLog[]
-  patientProfile      PatientProfile?
-  doctorProfile       DoctorProfile?
+  patient             Patient?
+  doctor              Doctor?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 }
@@ -142,44 +142,162 @@ model DataAccessLog {
 }
 
 // --- CORE HEALTHCARE ---
-model PatientProfile {
-  id                String   @id @default(uuid())
-  userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Patient {
+  id                String                 @id @default(uuid())
+  userId            String?                @unique
+  user              User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   firstName         String
   lastName          String
   dob               DateTime
   gender            String
   bloodGroup        String?
-  emergencyContact  String
-  allergies         String[] 
-  chronicConditions String[]
-  insuranceInfo     Json?
+  email             String?                @unique
+  phone             String                 @unique
+  aadhaar           String?                @unique
+  isDeleted         Boolean                @default(false)
+  address           PatientAddress?
+  emergencyContact  EmergencyContact?
+  insuranceInfo     InsuranceInformation?
+  medicalHistory    PatientMedicalHistory[]
   appointments      Appointment[]
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+}
+
+model PatientAddress {
+  id            String   @id @default(uuid())
+  patientId     String   @unique
+  patient       Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  streetAddress String
+  city          String
+  state         String
+  postalCode    String
+  country       String   @default("India")
+}
+
+model EmergencyContact {
+  id           String   @id @default(uuid())
+  patientId    String   @unique
+  patient      Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  name         String
+  relationship String
+  phone        String
+  email        String?
+}
+
+model InsuranceInformation {
+  id               String    @id @default(uuid())
+  patientId        String    @unique
+  patient          Patient   @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  providerName     String
+  policyNumber     String
+  policyHolderName String
+  coverageDetails  String?
+  expiryDate       DateTime?
+}
+
+model PatientMedicalHistory {
+  id                String   @id @default(uuid())
+  patientId         String
+  patient           Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  condition         String
+  diagnosedDate     DateTime?
+  notes             String?  @db.Text
+  allergies         String[]
+  chronicConditions String[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
-model DoctorProfile {
-  id                String   @id @default(uuid())
-  userId            String   @unique
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  licenseNumber     String   @unique
-  specialization    String
-  department        String
-  consultationFee   Decimal  @db.Decimal(10, 2)
-  availability      Json     // e.g., {"monday": ["09:00", "17:00"]}
-  appointments      Appointment[]
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+model Doctor {
+  id              String                        @id @default(uuid())
+  userId          String?                       @unique
+  user            User?                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName       String
+  lastName        String
+  email           String?                       @unique
+  phone           String                        @unique
+  licenseNumber   String                        @unique
+  consultationFee Decimal                       @db.Decimal(10, 2)
+  isDeleted       Boolean                       @default(false)
+  departmentId    String
+  department      DoctorDepartment              @relation(fields: [departmentId], references: [id])
+  qualifications  DoctorQualification[]
+  specializations DoctorSpecializationMapping[]
+  schedules       DoctorSchedule[]
+  availabilities  DoctorAvailability[]
+  appointments    Appointment[]
+  createdAt       DateTime                      @default(now())
+  updatedAt       DateTime                      @updatedAt
+}
+
+model DoctorDepartment {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?  @db.Text
+  doctors     Doctor[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DoctorSpecialization {
+  id          String                        @id @default(uuid())
+  name        String                        @unique
+  description String?                       @db.Text
+  doctors     DoctorSpecializationMapping[]
+  createdAt   DateTime                      @default(now())
+  updatedAt   DateTime                      @updatedAt
+}
+
+model DoctorSpecializationMapping {
+  doctorId         String
+  specializationId String
+  doctor           Doctor               @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  specialization   DoctorSpecialization @relation(fields: [specializationId], references: [id], onDelete: Cascade)
+
+  @@id([doctorId, specializationId])
+}
+
+model DoctorQualification {
+  id          String   @id @default(uuid())
+  doctorId    String
+  doctor      Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  degree      String
+  institution String
+  year        Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DoctorSchedule {
+  id        String   @id @default(uuid())
+  doctorId  String
+  doctor    Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  dayOfWeek Int      // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  startTime String   // "HH:MM"
+  endTime   String   // "HH:MM"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DoctorAvailability {
+  id        String    @id @default(uuid())
+  doctorId  String
+  doctor    Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  date      DateTime  // specific date of unavailability
+  startTime String?   // "HH:MM" (optional, null = full day leave)
+  endTime   String?   // "HH:MM" (optional, null = full day leave)
+  reason    String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Appointment {
   id        String            @id @default(uuid())
   patientId String
-  patient   PatientProfile    @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient   Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
   doctorId  String
-  doctor    DoctorProfile     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  doctor    Doctor            @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   date      DateTime
   time      String
   status    AppointmentStatus @default(REQUESTED)

@@ -4,6 +4,10 @@ import jwt from 'jsonwebtoken';
 import { CustomRequest, JwtPayload } from './types/auth.types';
 import permissionRouter from './routes/permission.routes';
 import rbacRouter from './routes/rbac.routes';
+import securityRouter from './routes/security.routes';
+import sessionRouter from './routes/session.routes';
+import patientRouter from './routes/patient.routes';
+import doctorRouter from './routes/doctor.routes';
 
 const app = express();
 
@@ -31,6 +35,10 @@ app.use(authenticateJWT);
 // Routes
 app.use('/api/permissions', permissionRouter);
 app.use('/api/rbac', rbacRouter);
+app.use('/api/security', securityRouter);
+app.use('/api/sessions', sessionRouter);
+app.use('/api/patients', patientRouter);
+app.use('/api/doctors', doctorRouter);
 
 // Health Check
 app.get('/health', (_req, res) => {

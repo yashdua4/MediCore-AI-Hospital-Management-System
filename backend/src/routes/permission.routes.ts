@@ -6,7 +6,7 @@ import { RoleType } from '@prisma/client';
 const router = Router();
 
 // Secure all permission management routes to SUPER_ADMIN only
-router.use(requireRole([RoleType.SUPER_ADMIN]));
+router.use(requireRole(RoleType.SUPER_ADMIN));
 
 /**
  * @swagger

@@ -141,7 +141,7 @@ describe('RBAC Middleware and Route Integration Tests', () => {
         where: { userId: doctorUser.id, eventType: 'UNAUTHORIZED_ACCESS' },
       });
       expect(securityEvent).toBeDefined();
-      expect(securityEvent?.description).toContain('protected endpoint needing [SUPER_ADMIN]');
+      expect(securityEvent?.description).toContain("needing role 'SUPER_ADMIN'");
     });
 
     test('should deny access if Authorization header is missing', async () => {
