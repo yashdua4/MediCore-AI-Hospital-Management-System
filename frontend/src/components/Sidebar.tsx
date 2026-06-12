@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import {
   Activity,
+  Brain,
   Compass,
   Users,
   Calendar,
@@ -40,6 +41,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       case 'HOSPITAL_ADMIN':
         return [
           { name: 'Executive Dashboard', path: '/dashboard/executive', icon: <Compass className="h-5 w-5" /> },
+          { name: 'AI Usage Analytics', path: '/dashboard/ai-analytics', icon: <Activity className="h-5 w-5 text-violet-400" /> },
+          { name: 'AI Clinical Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-400 animate-pulse" /> },
           { name: 'Security & Audits', path: '/dashboard/security', icon: <ShieldCheck className="h-5 w-5 text-orange-500" /> },
           { name: 'Patients Directory', path: '/dashboard/patients', icon: <Users className="h-5 w-5" /> },
           { name: 'Appointments Manager', path: '/dashboard/appointments', icon: <Calendar className="h-5 w-5" /> },
@@ -54,6 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       case 'TRAUMA_SURGEON':
         return [
           { name: 'Doctor Dashboard', path: '/dashboard/doctor', icon: <Compass className="h-5 w-5" /> },
+          { name: 'AI Clinical Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-400 animate-pulse" /> },
           { name: 'EMR Chart Room', path: '/dashboard/emr', icon: <FolderHeart className="h-5 w-5" /> },
           { name: 'Patients List', path: '/dashboard/patients', icon: <Users className="h-5 w-5" /> },
           { name: 'My Appointments', path: '/dashboard/appointments', icon: <Calendar className="h-5 w-5" /> },
@@ -64,6 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       case 'NURSE':
         return [
           { name: 'Nurse Station', path: '/dashboard/nurse', icon: <Compass className="h-5 w-5" /> },
+          { name: 'AI Clinical Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-400 animate-pulse" /> },
           { name: 'Active Ward Census', path: '/dashboard/ipd', icon: <Bed className="h-5 w-5" /> },
           { name: 'Patient Vitals', path: '/dashboard/emr', icon: <FolderHeart className="h-5 w-5" /> },
           { name: 'Pharmacy Stock', path: '/dashboard/pharmacy', icon: <Pill className="h-5 w-5" /> },
@@ -73,12 +78,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       case 'ACCOUNTANT':
         return [
           { name: 'Billing Dashboard', path: '/dashboard/billing', icon: <Compass className="h-5 w-5" /> },
+          { name: 'AI Operations Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-400 animate-pulse" /> },
           { name: 'Claims Center', path: '/dashboard/claims', icon: <CreditCard className="h-5 w-5" /> },
           { name: 'Patients Index', path: '/dashboard/patients', icon: <Users className="h-5 w-5" /> },
         ];
       case 'PATIENT':
         return [
           { name: 'Patient Dashboard', path: '/dashboard/patient', icon: <Compass className="h-5 w-5" /> },
+          { name: 'AI Health Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-450 animate-pulse" /> },
           { name: 'My Health Record', path: '/dashboard/emr', icon: <FolderHeart className="h-5 w-5" /> },
           { name: 'Book Appointment', path: '/dashboard/appointments', icon: <Calendar className="h-5 w-5" /> },
           { name: 'Prescriptions', path: '/dashboard/pharmacy', icon: <Pill className="h-5 w-5" /> },

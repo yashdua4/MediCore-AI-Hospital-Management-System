@@ -19,6 +19,8 @@ import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
 import { BillingDashboard } from '../pages/dashboards/BillingDashboard';
 import { EmergencyDashboard } from '../pages/dashboards/EmergencyDashboard';
 import { SecurityDashboard } from '../pages/dashboards/SecurityDashboard';
+import { AICopilot } from '../pages/ai/AICopilot';
+import { AIDashboard } from '../pages/ai/AIDashboard';
 
 // Shared UI sub-views placeholders / empty states
 import { EmptyState } from '../components/EmptyStates';
@@ -101,6 +103,7 @@ export const AppRoutes: React.FC = () => {
       <Route element={<RequireAuth><AdminLayout /></RequireAuth>}>
         <Route path="/dashboard/executive" element={<ExecutiveDashboard />} />
         <Route path="/dashboard/security" element={<SecurityDashboard />} />
+        <Route path="/dashboard/ai-analytics" element={<AIDashboard />} />
       </Route>
 
       {/* Doctor specific layouts */}
@@ -132,6 +135,7 @@ export const AppRoutes: React.FC = () => {
       <Route element={<RequireAuth><DashboardLayout /></RequireAuth>}>
         <Route path="/dashboard/billing" element={<BillingDashboard />} />
         <Route path="/dashboard/emergency" element={<EmergencyDashboard />} />
+        <Route path="/dashboard/copilot" element={<AICopilot />} />
         
         {/* Placeholder folders fallback */}
         <Route

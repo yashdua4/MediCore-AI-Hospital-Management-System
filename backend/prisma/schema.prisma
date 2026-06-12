@@ -65,6 +65,7 @@ model User {
   triggeredAlerts            CriticalAlert[]             @relation("AlertTriggerUser")
   emergencyTimelines         EmergencyTimeline[]         @relation("TimelineUser")
   emergencyDispositions      EmergencyDisposition[]      @relation("DispositionUser")
+  aiConversations            AiConversation[]
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 }
@@ -1499,4 +1500,43 @@ model EmergencyDisposition {
   disposedAt      DateTime                    @default(now())
   createdAt       DateTime                    @default(now())
   updatedAt       DateTime                    @updatedAt
+}
+
+// --- AI COPILOT & ASSISTANT ---
+
+model AiConversation {
+  id        String       @id @default(uuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  role      RoleType
+  messages  AiMessage[]
+  feedbacks AiFeedback[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId])
+}
+
+model AiMessage {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         String         // "USER" | "AI"
+  content        String         @db.Text
+  createdAt      DateTime       @default(now())
+
+  @@index([conversationId])
+}
+
+model AiFeedback {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  messageId      String?
+  rating         Int            // 1 = Thumbs Up, -1 = Thumbs Down
+  comment        String?        @db.Text
+  createdAt      DateTime       @default(now())
+
+  @@index([conversationId])
 }

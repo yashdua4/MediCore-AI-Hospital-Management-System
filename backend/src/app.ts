@@ -15,6 +15,7 @@ import pharmacyRouter from './routes/pharmacy.routes';
 import billingRouter from './routes/billing.routes';
 import ipdRouter from './routes/ipd.routes';
 import emergencyRouter from './routes/emergency.routes';
+import aiRouter from './routes/ai.routes';
 
 
 const app = express();
@@ -54,6 +55,7 @@ app.use('/api/pharmacy', pharmacyRouter);
 app.use('/api/billing', billingRouter);
 app.use('/api/ipd', ipdRouter);
 app.use('/api/emergency', emergencyRouter);
+app.use('/api/ai', aiRouter);
 
 
 // Health Check
