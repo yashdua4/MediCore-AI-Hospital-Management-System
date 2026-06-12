@@ -1,0 +1,92 @@
+name: MediCore CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, development ]
+  pull_request:
+    branches: [ main, master, development ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: medicore
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-name: '20.x'
+        node-version: 20
+        cache: 'npm'
+        cache-dependency-path: |
+          backend/package-lock.json
+          frontend/package-lock.json
+
+    # --- Backend CI Steps ---
+    - name: Install Backend Dependencies
+      run: |
+        cd backend
+        npm ci
+
+    - name: Validate Prisma Schema
+      run: |
+        cd backend
+        npx prisma validate
+
+    - name: Generate Prisma Client
+      run: |
+        cd backend
+        npx prisma generate
+
+    - name: Build Backend
+      run: |
+        cd backend
+        npm run build
+
+    - name: Setup Test Database Schema
+      run: |
+        cd backend
+        npx prisma db push
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/medicore?schema=public
+
+    - name: Run Backend Integration & E2E Tests
+      run: |
+        cd backend
+        npm run test
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/medicore?schema=public
+        JWT_SECRET: test_secret_key_999
+
+    # --- Frontend CI Steps ---
+    - name: Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Lint Frontend Code
+      run: |
+        cd frontend
+        npm run lint
+
+    - name: Build Frontend Application
+      run: |
+        cd frontend
+        npm run build
