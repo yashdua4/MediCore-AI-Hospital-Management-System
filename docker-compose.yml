@@ -33,8 +33,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5000/ready || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     command: >
-      sh -c "npx prisma db push --force-reset && npm run db:seed-demo && npm run start"
+      sh -c "npx prisma db push && npm run start"
 
   frontend:
     build:

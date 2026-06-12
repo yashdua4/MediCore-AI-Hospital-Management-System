@@ -147,6 +147,7 @@ async function seed() {
     { email: 'labtech@medicore.com', role: RoleType.LAB_TECH },
     { email: 'billing@medicore.com', role: RoleType.BILLING_EXEC },
     { email: 'receptionist@medicore.com', role: RoleType.RECEPTIONIST },
+    { email: 'emergency@medicore.com', role: RoleType.EMERGENCY_DOCTOR },
   ];
 
   const userMap = new Map<RoleType, any>();
@@ -328,7 +329,74 @@ async function seed() {
     },
   });
 
+  // 10. Seed emergency department demo case
+  console.log('Creating emergency department demo case...');
+  const emergencyUser = userMap.get(RoleType.EMERGENCY_DOCTOR);
+  const erDept = await prisma.doctorDepartment.create({
+    data: { name: 'Emergency Medicine' },
+  });
+  const emergencyDoctor = await prisma.doctor.create({
+    data: {
+      userId: emergencyUser.id,
+      firstName: 'Fiona',
+      lastName: 'Gallagher',
+      email: emergencyUser.email,
+      phone: '9876501234',
+      licenseNumber: 'LIC_ER_DEMO_001',
+      consultationFee: 900.00,
+      departmentId: erDept.id,
+    },
+  });
+
+  const emergencyCase = await prisma.emergencyCase.create({
+    data: {
+      caseNumber: 'ER-DEMO-001',
+      patientId: patient.id,
+      status: 'TRIAGED',
+      arrivalMode: 'AMBULANCE',
+      chiefComplaint: 'Chest pain and shortness of breath',
+      triageLevel: 'LEVEL_2_EMERGENCY',
+    },
+  });
+
+  await prisma.triageAssessment.create({
+    data: {
+      emergencyCaseId: emergencyCase.id,
+      triageLevel: 'LEVEL_2_EMERGENCY',
+      chiefComplaint: 'Chest pain and shortness of breath',
+      symptoms: 'Diaphoresis, mild dyspnea',
+      systolicBP: 138,
+      diastolicBP: 88,
+      heartRate: 102,
+      temperature: 37.1,
+      respiratoryRate: 22,
+      oxygenSaturation: 94,
+      triageNotes: 'ECG and troponin ordered',
+      triageNurseId: nurseUser.id,
+    },
+  });
+
+  await prisma.emergencyDoctorAssignment.create({
+    data: {
+      emergencyCaseId: emergencyCase.id,
+      doctorId: emergencyDoctor.id,
+      role: 'PRIMARY_ED_PHYSICIAN',
+      status: 'ACCEPTED',
+      acceptedAt: new Date(),
+    },
+  });
+
   console.log('Seeding Demo Hospital completed successfully!');
+  console.log('');
+  console.log('Demo accounts (password: DemoPassword123):');
+  console.log('  Admin:        admin@medicore.com');
+  console.log('  Doctor:       doctor@medicore.com');
+  console.log('  Nurse:        nurse@medicore.com');
+  console.log('  Patient:      patient@medicore.com');
+  console.log('  Lab Tech:     labtech@medicore.com');
+  console.log('  Billing:      billing@medicore.com');
+  console.log('  Receptionist: receptionist@medicore.com');
+  console.log('  Emergency:    emergency@medicore.com');
 }
 
 seed()

@@ -5,12 +5,13 @@ import { RoleType, UserSession } from '../types';
 // Predefined accounts mapping for quick login testing and role switching
 export const DEMO_ACCOUNTS = [
   { email: 'admin@medicore.com', role: 'SUPER_ADMIN', name: 'Dr. Sarah Jenkins (Admin)' },
-  { email: 'doctor@medicore.com', role: 'DOCTOR', name: 'Dr. Alex Rivera (Cardiology)' },
+  { email: 'doctor@medicore.com', role: 'DOCTOR', name: 'Dr. John Watson (General Medicine)' },
   { email: 'nurse@medicore.com', role: 'NURSE', name: 'Nurse Emily Carter (ICU)' },
-  { email: 'patient@gmail.com', role: 'PATIENT', name: 'John Doe (Outpatient)' },
+  { email: 'patient@medicore.com', role: 'PATIENT', name: 'John Doe (Outpatient)' },
   { email: 'billing@medicore.com', role: 'BILLING_EXEC', name: 'Marcus Vance (Billing)' },
   { email: 'emergency@medicore.com', role: 'EMERGENCY_DOCTOR', name: 'Dr. Fiona Gallagher (ER)' },
-  { email: 'security@medicore.com', role: 'SUPER_ADMIN', name: 'Chief Security Officer' }
+  { email: 'receptionist@medicore.com', role: 'RECEPTIONIST', name: 'Alex Morgan (Reception)' },
+  { email: 'labtech@medicore.com', role: 'LAB_TECH', name: 'Priya Sharma (Lab)' },
 ];
 
 export const authService = {

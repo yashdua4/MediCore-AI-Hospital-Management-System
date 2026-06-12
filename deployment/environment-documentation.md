@@ -16,6 +16,18 @@ The backend service expects the following secrets in its runtime context:
 | `NODE_ENV` | No | `production` | Set to `production` to activate security controls and suppress verbose stack traces. |
 | `CORS_ORIGIN` | No | `*` or comma-separated origins | Whitelisted frontend domains allowed to query REST APIs. |
 
+Copy `backend/.env.example` to `backend/.env` and `frontend/.env.example` to `frontend/.env` before local or production setup.
+
+---
+
+## Health Check Endpoints
+
+| Endpoint | Purpose | Expected Response |
+| :--- | :--- | :--- |
+| `GET /health` | Liveness probe | `200` — process is running |
+| `GET /ready` | Readiness probe | `200` — DB connected; `503` if env/DB fails |
+| `GET /health/system` | Full system validation | `200`/`503` — environment, DB, RBAC, routes |
+
 ---
 
 ## 2. Platform Setup Guides
