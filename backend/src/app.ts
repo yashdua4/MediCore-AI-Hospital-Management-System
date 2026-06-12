@@ -14,6 +14,8 @@ import labRouter from './routes/lab.routes';
 import pharmacyRouter from './routes/pharmacy.routes';
 import billingRouter from './routes/billing.routes';
 import ipdRouter from './routes/ipd.routes';
+import emergencyRouter from './routes/emergency.routes';
+
 
 const app = express();
 
@@ -51,6 +53,8 @@ app.use('/api/lab', labRouter);
 app.use('/api/pharmacy', pharmacyRouter);
 app.use('/api/billing', billingRouter);
 app.use('/api/ipd', ipdRouter);
+app.use('/api/emergency', emergencyRouter);
+
 
 // Health Check
 app.get('/health', (_req, res) => {
