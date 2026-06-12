@@ -306,3 +306,142 @@ export function usePrescriptionsQuery(filters: { patientId?: string; doctorId?: 
     },
   });
 }
+
+// ==========================================
+// PORTAL MUTATION HOOKS
+// ==========================================
+
+export function useBookAppointmentMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { patientId: string; doctorId: string; date: string; time: string; duration?: number; notes?: string }) => {
+      const { data } = await apiClient.post('/appointments', payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+}
+
+export function useRescheduleAppointmentMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...payload }: { id: string; date: string; time: string; reason?: string }) => {
+      const { data } = await apiClient.put(`/appointments/${id}/reschedule`, payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+}
+
+export function useCancelAppointmentMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, reason }: { id: string; reason?: string }) => {
+      const { data } = await apiClient.put(`/appointments/${id}/cancel`, { reason });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+}
+
+export function useUpdateAppointmentStatusMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, status, reason }: { id: string; status: string; reason?: string }) => {
+      const { data } = await apiClient.put(`/appointments/${id}/status`, { status, reason });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+}
+
+export function useUpdatePatientMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...payload }: { id: string; firstName?: string; lastName?: string; dob?: string; gender?: string; phone?: string; email?: string }) => {
+      const { data } = await apiClient.put(`/patients/${id}`, payload);
+      return data.data || data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['patient', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['patients'] });
+    },
+  });
+}
+
+export function useAddMedicalHistoryMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { patientId: string; doctorId: string; symptoms?: string; observations?: string; followUpInstructions?: string; diagnoses?: any[]; treatmentPlans?: any[]; prescriptions?: any[]; vitals?: any }) => {
+      const { data } = await apiClient.post('/emr', payload);
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['patient-medical-history', variables.patientId] });
+      queryClient.invalidateQueries({ queryKey: ['patient-timeline', variables.patientId] });
+      queryClient.invalidateQueries({ queryKey: ['appointments'] });
+    },
+  });
+}
+
+export function useAddPrescriptionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { patientId: string; doctorId: string; medicines: Array<{ medicineName: string; strength: string; frequency: string; duration: string; instructions?: string }>; notes?: string }) => {
+      const { data } = await apiClient.post('/pharmacy/prescriptions', payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['prescriptions'] });
+    },
+  });
+}
+
+export function useCreateLabOrderMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { patientId: string; doctorId: string; testId: string; instructions?: string; priority?: string }) => {
+      const { data } = await apiClient.post('/lab/orders', payload);
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['lab-orders'] });
+    },
+  });
+}
+
+export function usePayInvoiceMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, amount, paymentMethodName, transactionRef, notes }: { id: string; amount: number; paymentMethodName: string; transactionRef?: string; notes?: string }) => {
+      const { data } = await apiClient.post(`/billing/invoices/${id}/payments`, { amount, paymentMethodName, transactionRef, notes });
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['billing-invoices'] });
+    },
+  });
+}
+
+export function useAddVitalMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { patientId: string; bloodPressure: string; heartRate: number; respiratoryRate: number; temperature: number; oxygenSaturation: number; height: number; weight: number }) => {
+      const { data } = await apiClient.post('/emr/vitals', payload);
+      return data;
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['patient-medical-history', variables.patientId] });
+      queryClient.invalidateQueries({ queryKey: ['patient-timeline', variables.patientId] });
+    },
+  });
+}
+

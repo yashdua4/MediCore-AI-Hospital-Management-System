@@ -16,7 +16,8 @@ import {
   AlertTriangle,
   FolderHeart,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Bell
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -51,6 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           { name: 'Billing Ledger', path: '/dashboard/billing', icon: <CreditCard className="h-5 w-5" /> },
           { name: 'IPD Ward Map', path: '/dashboard/ipd', icon: <Bed className="h-5 w-5" /> },
           { name: 'Emergency Control', path: '/dashboard/emergency', icon: <AlertTriangle className="h-5 w-5 text-rose-500" /> },
+          { name: 'Notifications Log', path: '/dashboard/notifications', icon: <Bell className="h-5 w-5 text-indigo-400" /> },
         ];
       case 'DOCTOR':
       case 'EMERGENCY_DOCTOR':
@@ -64,6 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           { name: 'Lab Orders', path: '/dashboard/lab', icon: <FlaskConical className="h-5 w-5" /> },
           { name: 'Pharmacy Dispenser', path: '/dashboard/pharmacy', icon: <Pill className="h-5 w-5" /> },
           { name: 'Emergency Board', path: '/dashboard/emergency', icon: <AlertTriangle className="h-5 w-5 text-rose-500" /> },
+          { name: 'Notifications Log', path: '/dashboard/notifications', icon: <Bell className="h-5 w-5 text-indigo-400" /> },
         ];
       case 'NURSE':
         return [
@@ -73,6 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           { name: 'Patient Vitals', path: '/dashboard/emr', icon: <FolderHeart className="h-5 w-5" /> },
           { name: 'Pharmacy Stock', path: '/dashboard/pharmacy', icon: <Pill className="h-5 w-5" /> },
           { name: 'Emergency Board', path: '/dashboard/emergency', icon: <AlertTriangle className="h-5 w-5 text-rose-500" /> },
+          { name: 'Notifications Log', path: '/dashboard/notifications', icon: <Bell className="h-5 w-5 text-indigo-400" /> },
         ];
       case 'BILLING_EXEC':
       case 'ACCOUNTANT':
@@ -81,6 +85,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           { name: 'AI Operations Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-400 animate-pulse" /> },
           { name: 'Claims Center', path: '/dashboard/claims', icon: <CreditCard className="h-5 w-5" /> },
           { name: 'Patients Index', path: '/dashboard/patients', icon: <Users className="h-5 w-5" /> },
+          { name: 'Notifications Log', path: '/dashboard/notifications', icon: <Bell className="h-5 w-5 text-indigo-400" /> },
         ];
       case 'PATIENT':
         return [
@@ -88,8 +93,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           { name: 'AI Health Copilot', path: '/dashboard/copilot', icon: <Brain className="h-5 w-5 text-emerald-450 animate-pulse" /> },
           { name: 'My Health Record', path: '/dashboard/emr', icon: <FolderHeart className="h-5 w-5" /> },
           { name: 'Book Appointment', path: '/dashboard/appointments', icon: <Calendar className="h-5 w-5" /> },
+          { name: 'Lab Reports', path: '/dashboard/lab', icon: <FlaskConical className="h-5 w-5" /> },
           { name: 'Prescriptions', path: '/dashboard/pharmacy', icon: <Pill className="h-5 w-5" /> },
           { name: 'My Billing Statements', path: '/dashboard/billing', icon: <CreditCard className="h-5 w-5" /> },
+          { name: 'Profile Settings', path: '/dashboard/profile', icon: <Settings className="h-5 w-5" /> },
+          { name: 'Notifications Log', path: '/dashboard/notifications', icon: <Bell className="h-5 w-5 text-indigo-400" /> },
         ];
       default:
         return [

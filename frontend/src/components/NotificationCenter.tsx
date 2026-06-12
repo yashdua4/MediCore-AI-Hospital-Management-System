@@ -124,6 +124,19 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({ isOpen, 
           ))
         )}
       </div>
+
+      <div className="border-t border-slate-100 dark:border-slate-800 pt-2.5 mt-2.5 text-center">
+        <button
+          onClick={() => {
+            navigate('/dashboard/notifications');
+            onClose();
+          }}
+          className="text-xs text-indigo-500 hover:text-indigo-650 font-semibold"
+        >
+          View All History
+        </button>
+      </div>
     </div>
   );
 };
+
