@@ -1,0 +1,75 @@
+# 🐞 Bug Tracker
+
+## Overview
+
+This document is used to track, prioritize, and monitor software defects identified during development, testing, and deployment phases.
+
+---
+
+## Open Issues
+
+| Bug ID | Module | Description | Priority | Status |
+| --- | --- | --- | --- | --- |
+| BUG-001 | Authentication | Invalid login error message not displayed correctly | High | Open |
+| BUG-002 | Patient Management | Duplicate patient records can be created | Medium | Open |
+| BUG-003 | Appointment Management | Appointment cancellation notification not sent | Medium | Open |
+| BUG-004 | AI Healthcare Assistant | Delayed response for complex queries | Low | Open |
+
+---
+
+## Bug Severity Levels
+
+### 🔴 Critical
+
+- System crash
+- Data loss
+- Security breach
+
+### 🟠 High
+
+- Core functionality unavailable
+- Major workflow interruption
+
+### 🟡 Medium
+
+- Partial functionality affected
+- Workaround available
+
+### 🟢 Low
+
+- UI issues
+- Minor usability problems
+
+---
+
+## Bug Resolution Workflow
+
+1. Bug Reported
+2. Bug Verified
+3. Assigned to Developer
+4. Fix Implemented
+5. QA Testing
+6. Closed
+
+---
+
+## Tracking Metrics
+
+✅ Total Bugs Reported
+
+✅ Open Bugs
+
+✅ Fixed Bugs
+
+✅ Retested Bugs
+
+✅ Closed Bugs
+
+---
+
+## Current Status
+
+- Total Bugs: 4
+- Open: 4
+- In Progress: 0
+- Closed: 0

@@ -1,0 +1,262 @@
+## Scope
+
+## 🎯 System Scope
+
+The AI-Powered Hospital & Healthcare Management System is designed to digitize and automate hospital operations while improving efficiency, security, and patient care through intelligent automation.
+
+### In Scope
+
+- User Authentication & Authorization
+- Role-Based Access Control (RBAC)
+- Patient Management
+- Doctor Management
+- Department Management
+- Appointment Scheduling
+- Medical Records Management
+- Audit Logging
+- Notification System
+- AI Healthcare Assistant
+- Reporting & Analytics Dashboard
+- Security Monitoring
+
+### Out of Scope (Phase 1)
+
+- Online Payment Gateway
+- Telemedicine Video Calls
+- Insurance Claim Processing
+- IoT Medical Device Integration
+- Multi-Hospital Network Integration
+
+### Business Goals
+
+✅ Reduce manual administrative work
+
+✅ Improve patient experience
+
+✅ Strengthen healthcare data security
+
+✅ Enable AI-assisted healthcare operations
+
+✅ Provide real-time operational visibility
+
+## 
+
+## C4 Model
+
+## Context
+
+### External Actors
+
+- Hospital Administrator
+- Doctor
+- Receptionist
+- Patient
+- System Auditor
+
+### External Systems
+
+- Email Service
+- Notification Service
+- AI Service Layer
+- Database Server
+
+### Purpose
+
+The platform acts as the central system managing hospital operations, user access, appointments, records, analytics, and AI-assisted healthcare services.
+
+## Container
+
+### Frontend Layer
+
+- React
+- TypeScript
+- TailwindCSS
+- Zustand
+
+Responsibilities:
+
+- User Interface
+- Dashboards
+- Appointment Management
+- Patient & Doctor Portals
+
+---
+
+### Backend Layer
+
+- Node.js
+- Express.js
+- TypeScript
+
+Responsibilities:
+
+- Business Logic
+- Authentication
+- RBAC
+- API Services
+- Audit Logging
+
+### Database Layer
+
+- PostgreSQL
+- Prisma ORM
+
+Responsibilities:
+
+- Persistent Data Storage
+- Data Integrity
+- Transaction Management
+
+---
+
+### AI Layer
+
+Responsibilities:
+
+- Symptom Analysis
+- Medical Record Summarization
+- Healthcare Assistant Chat
+- Recommendation Engine
+
+---
+
+### 
+
+## Component
+
+### Authentication Module
+
+- Login Service
+- Registration Service
+- JWT Service
+- Refresh Token Service
+
+### Patient Module
+
+- Patient Service
+- Patient Controller
+- Patient Repository
+
+### Doctor Module
+
+- Doctor Service
+- Doctor Controller
+- Doctor Repository
+
+### Appointment Module
+
+- Scheduling Engine
+- Appointment Service
+- Notification Handler
+
+### Security Module
+
+- RBAC Middleware
+- Audit Logger
+- Security Monitoring
+
+### AI Module
+
+- AI Assistant
+- Symptom Analyzer
+- Medical Summary Generator
+
+## Key decisions
+
+- Tech stack
+
+## 🏗️ Technology Stack
+
+### Frontend
+
+- React
+- TypeScript
+- TailwindCSS
+- Zustand
+- React Router
+
+### Backend
+
+- Node.js
+- Express.js
+- TypeScript
+
+### Database
+
+- PostgreSQL
+- Prisma ORM
+
+### Testing
+
+- Jest
+- Supertest
+- Vitest
+- React Testing Library
+
+### DevOps
+
+- GitHub Actions
+- Docker
+- Deployment target
+
+### Development
+
+- Local Docker Environment
+
+### Staging
+
+- Cloud-Based Testing Environment
+
+### Production
+
+- AWS / Azure Cloud Infrastructure
+
+### Deployment Goals
+
+- High Availability
+- Scalability
+- Automated CI/CD
+- Disaster Recovery Support
+
+Security Model
+
+### Authentication
+
+- JWT Access Tokens
+- Refresh Tokens
+- Secure Session Handling
+
+### Authorization
+
+- Role-Based Access Control (RBAC)
+
+Roles:
+
+- Super Admin
+- Hospital Admin
+- Doctor
+- Receptionist
+- Patient
+
+### Security Controls
+
+✅ Password Hashing (bcrypt)
+
+✅ Input Validation (Zod)
+
+✅ SQL Injection Protection
+
+✅ XSS Protection
+
+✅ CSRF Protection
+
+✅ Audit Logging
+
+✅ Security Event Monitoring
+
+### Compliance Objectives
+
+- Healthcare Data Protection
+- Auditability
+- Secure Access Management
+- Data Integrity Assurance

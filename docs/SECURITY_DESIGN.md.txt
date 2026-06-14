@@ -1,0 +1,196 @@
+## Threat model
+
+## 🎯 Security Threat Model
+
+The AI-Powered Hospital & Healthcare Management System handles sensitive healthcare information and therefore follows a defense-in-depth security strategy.
+
+### Primary Threats
+
+### Unauthorized Access
+
+Risks:
+
+- Stolen Credentials
+- Session Hijacking
+- Privilege Escalation
+
+Mitigation:
+
+- JWT Authentication
+- Refresh Tokens
+- RBAC Enforcement
+- Session Expiration
+
+---
+
+### Data Breach
+
+Risks:
+
+- Unauthorized Patient Data Access
+- Medical Record Exposure
+
+Mitigation:
+
+- Database Access Controls
+- Encryption in Transit
+- Secure API Design
+- Audit Logging
+
+---
+
+### Application Attacks
+
+Risks:
+
+- SQL Injection
+- Cross-Site Scripting (XSS)
+- CSRF Attacks
+
+Mitigation:
+
+- Prisma ORM Protection
+- Zod Input Validation
+- Secure Headers
+- CSRF Protection
+
+---
+
+### Infrastructure Threats
+
+Risks:
+
+- Server Compromise
+- DDoS Attacks
+- Misconfiguration
+
+Mitigation:
+
+- Firewall Rules
+- Rate Limiting
+- Environment Isolation
+- Monitoring & Alerts
+
+---
+
+## Auth & RBAC
+
+## 🔐 Authentication Strategy
+
+### Authentication Mechanisms
+
+- JWT Access Tokens
+- Refresh Tokens
+- HTTP Only Cookies
+- Password Hashing (bcrypt)
+
+### Session Management
+
+- Secure Token Storage
+- Automatic Token Rotation
+- Session Expiration Policies
+
+### Supported Roles
+
+- Super Admin
+- Hospital Admin
+- Doctor
+- Receptionist
+- Patient
+
+---
+
+## 🛡️ Role-Based Access Control (RBAC)
+
+### Authorization Principles
+
+- Least Privilege Access
+- Role-Based Permissions
+- Protected API Routes
+
+### Example Permissions
+
+| Role | Access |
+| --- | --- |
+| Super Admin | Full System Access |
+| Hospital Admin | Operational Management |
+| Doctor | Medical Records & Appointments |
+| Receptionist | Scheduling & Registration |
+| Patient | Own Profile & Appointments |
+
+---
+
+## Audit logging
+
+## 📋 Audit Logging Strategy
+
+All critical activities within the system must be logged for accountability and compliance.
+
+### Logged Events
+
+- User Login
+- User Logout
+- Password Changes
+- Patient Record Updates
+- Appointment Changes
+- Permission Changes
+- Security Events
+
+### Logged Information
+
+- User ID
+- Action Type
+- Timestamp
+- IP Address
+- Device Information
+- Request Metadata
+
+### Objectives
+
+✅ Compliance Tracking
+
+✅ Security Investigation
+
+✅ Change History
+
+✅ Operational Transparency
+
+## Monitoring & alerts
+
+## 🚨 Security Monitoring & Alerts
+
+The platform continuously monitors system activity and generates alerts for suspicious behavior.
+
+### Monitored Events
+
+- Failed Login Attempts
+- Multiple Authentication Failures
+- Unauthorized Access Attempts
+- Permission Escalation Attempts
+- Unusual API Activity
+- Server Errors
+
+### Alert Severity Levels
+
+| Level | Description |
+| --- | --- |
+| Critical | Immediate Response Required |
+| High | Security Investigation Required |
+| Medium | Monitoring Recommended |
+| Low | Informational Event |
+
+### Alert Channels
+
+- Email Notifications
+- Admin Dashboard Alerts
+- Security Reports
+
+### Monitoring Goals
+
+✅ Early Threat Detection
+
+✅ Incident Response Support
+
+✅ Continuous Security Visibility
+
+✅ Healthcare Data Protection

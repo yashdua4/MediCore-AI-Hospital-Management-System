@@ -1,0 +1,124 @@
+# 📖 User Stories
+
+## Overview
+
+This document captures the primary user stories for the AI-Powered Hospital & Healthcare Management System. These stories represent the needs and expectations of different stakeholders interacting with the platform.
+
+---
+
+## 👨‍💼 Hospital Administrator
+
+### US-001: Manage Users
+
+**As a Hospital Administrator,** I want to create and manage user accounts so that hospital staff can securely access the system.
+
+### US-002: Assign Roles
+
+**As a Hospital Administrator,** I want to assign roles and permissions so that users only access authorized features.
+
+### US-003: View Reports
+
+**As a Hospital Administrator,** I want to view operational reports and analytics so that I can monitor hospital performance.
+
+---
+
+## 👨‍⚕️ Doctor
+
+### US-004: View Patient Records
+
+**As a Doctor,** I want to access patient medical records so that I can provide accurate treatment.
+
+### US-005: Manage Appointments
+
+**As a Doctor,** I want to view and manage my appointments so that I can organize patient consultations.
+
+### US-006: Generate Medical Summaries
+
+**As a Doctor,** I want AI-assisted medical summaries so that I can save time reviewing patient histories.
+
+---
+
+## 👩‍💼 Receptionist
+
+### US-007: Register Patients
+
+**As a Receptionist,** I want to register new patients so that their information is available in the system.
+
+### US-008: Schedule Appointments
+
+**As a Receptionist,** I want to book appointments for patients so that consultations can be managed efficiently.
+
+---
+
+## 🧑 Patient
+
+### US-009: View Appointments
+
+**As a Patient,** I want to view my appointment schedule so that I can track upcoming visits.
+
+### US-010: Access Medical Records
+
+**As a Patient,** I want secure access to my medical records so that I can review my health information.
+
+---
+
+## 🤖 AI Healthcare Assistant
+
+### US-011: Symptom Analysis
+
+**As a User,** I want AI-based symptom analysis so that I can receive preliminary healthcare guidance.
+
+### US-012: Healthcare Chat Support
+
+**As a User,** I want to interact with an AI assistant so that I can quickly obtain healthcare-related information.
+
+---
+
+## Acceptance Criteria
+
+✅ Secure authentication and authorization
+
+✅ Role-based access control (RBAC)
+
+✅ Appointment management workflow
+
+✅ Medical record accessibility
+
+✅ AI-assisted healthcare support
+
+✅ Audit logging and activity tracking
+
+STRUCTURE:
+
+📖 User Stories
+
+Overview
+
+[Overview paragraph]
+
+Hospital Administrator
+US-001 ...
+US-002 ...
+US-003 ...
+
+Doctor
+US-004 ...
+US-005 ...
+US-006 ...
+
+Receptionist
+US-007 ...
+US-008 ...
+
+Patient
+US-009 ...
+US-010 ...
+
+AI Healthcare Assistant
+US-011 ...
+US-012 ...
+
+Acceptance Criteria
+✅ ...
+✅ ...
+✅ ...
